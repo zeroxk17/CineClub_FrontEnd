@@ -12,7 +12,7 @@ interface MovieApiService {
     @GET("movies")
     suspend fun getAll(): List<Movie>
 
-    @GET("movies")
+    @GET("movies/genre/{genre}")
     suspend fun getByGenre(@Path("genre") genre: String): List<Movie>
 
     @GET("movies/{id}")

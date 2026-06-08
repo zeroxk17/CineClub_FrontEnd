@@ -1,6 +1,38 @@
 package com.example.cineclub.viewmodels
 
-// TODO: Sebastián
-// class MovieListViewModel(private val repo: MovieRepository) : ViewModel()
-// Exponer StateFlow<UiState> con Loading / Success(list) / Error(msg)
-// fun loadByGenre(genre: Genre) y fun loadAll() y fun retry()
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.cineclub.models.Movie
+import com.example.cineclub.repository.MovieRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+
+sealed interface MovieUiState {
+    object Loading : MovieUiState
+    data class Success(val movies: List<Movie>) : MovieUiState
+    data class Error(val message: String) : MovieUiState
+}
+
+class MovieListViewModel(private val repository: MovieRepository = MovieRepository()) : ViewModel() {
+    private val _uiState = MutableStateFlow<MovieUiState>(MovieUiState.Loading)
+    val uiState: StateFlow<MovieUiState> = _uiState.asStateFlow()
+
+    fun fetchMovies(genre: String = "") {
+        viewModelScope.launch {
+            _uiState.value = MovieUiState.Loading
+            val result = if (genre.isEmpty() || genre == "Todas") {
+                repository.getAllMovies()
+            } else {
+                repository.getMoviesByGenre(genre)
+            }
+
+            result.onSuccess { movies ->
+                _uiState.value = MovieUiState.Success(movies)
+            }.onFailure { error ->
+                _uiState.value = MovieUiState.Error(error.localizedMessage ?: "Error al cargar películas")
+            }
+        }
+    }
+}

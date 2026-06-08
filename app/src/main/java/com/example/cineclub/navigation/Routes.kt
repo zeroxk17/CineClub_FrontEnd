@@ -1,11 +1,14 @@
 package com.example.cineclub.navigation
 
-// TODO: Sebastián
-// object Routes {
-//   const val LOGIN = "login"
-//   const val SIGNUP = "signup"
-//   const val FILTER = "filter"
-//   const val MOVIE_LIST = "movieList/{genre}"   // arg: genre
-//   const val DETAIL = "detail/{movieId}"        // arg: movieId
-//   const val REVIEW_FORM = "review/{movieId}"   // arg: movieId
-// }
+object Routes {
+    const val LOGIN = "login"
+    const val SIGNUP = "signup"
+    const val HOME_FILTER = "filter"
+    const val MOVIE_LIST = "movie_list/{genre}"
+    const val MOVIE_DETAIL = "movie_detail/{movieId}"
+    const val REVIEW_FORM = "review_form/{movieId}"
+
+    fun createMovieListRoute(genre: String) = "movie_list/$genre"
+    fun createMovieDetailRoute(movieId: Int) = "movie_detail/$movieId"
+    fun createReviewFormRoute(movieId: Int) = "review_form/$movieId"
+}
