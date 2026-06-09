@@ -27,6 +27,22 @@ class MovieRepository {
         }
     }
 
+    suspend fun getMovieById(id: Int): Result<Movie> {
+        return try {
+            Result.success(apiService.getById(id))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getReviewsByMovie(movieId: Int): Result<List<Review>> {
+        return try {
+            Result.success(apiService.getReviewsByMovie(movieId))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     suspend fun postReview(review: Review): Result<Review> {
         return try {
             Result.success(apiService.postReview(review))
