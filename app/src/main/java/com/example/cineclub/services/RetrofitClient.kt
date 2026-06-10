@@ -6,11 +6,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
     private const val BASE_URL = "https://four11-cineclub-backend.onrender.com/api/"
 
-    val instance: MovieApiService by lazy {
+    private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(MovieApiService::class.java)
     }
+
+    val movieService: MovieApiService by lazy { retrofit.create(MovieApiService::class.java) }
+    val userService: UserApiService by lazy { retrofit.create(UserApiService::class.java) }
+
+    // Alias para compatibilidad con código previo
+    val instance: MovieApiService get() = movieService
 }

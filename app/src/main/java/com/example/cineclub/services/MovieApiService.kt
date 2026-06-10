@@ -2,7 +2,6 @@ package com.example.cineclub.services
 
 import com.example.cineclub.models.Movie
 import com.example.cineclub.models.Review
-import com.example.cineclub.models.User
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -12,14 +11,10 @@ interface MovieApiService {
     @GET("movies")
     suspend fun getAll(): List<Movie>
 
-    @GET("movies")
-    suspend fun getByGenre(@Path("genre") genre: String): List<Movie>
+    // El backend no tiene GET /movies/{id} asi que se filtra en cliente.
 
-    @GET("movies/{id}")
-    suspend fun getById(@Path("id") id: Int): Movie
-
-    @GET("reviews/{movieId}")
-    suspend fun getReviewsByMovie(@Path("movieId") movieId: Int): List<Review>
+    @GET("reviews/pelicula/{peliculaId}")
+    suspend fun getReviewsByMovie(@Path("peliculaId") movieId: Int): List<Review>
 
     @POST("reviews")
     suspend fun postReview(@Body review: Review): Review

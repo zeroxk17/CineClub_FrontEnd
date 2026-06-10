@@ -1,14 +1,22 @@
 package com.example.cineclub.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.cineclub.screens.*
 
 @Composable
-fun AppNavHost(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Routes.LOGIN) {
+fun AppNavHost(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
+    NavHost(
+        navController = navController,
+        startDestination = Routes.LOGIN,
+        modifier = modifier
+    ) {
 
         composable(Routes.LOGIN) {
             LoginScreen(

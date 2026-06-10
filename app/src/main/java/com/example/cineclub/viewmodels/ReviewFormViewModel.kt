@@ -58,6 +58,7 @@ class ReviewFormViewModel(
         _submitState.value = ReviewSubmitState.Loading
 
         val review = Review(
+            id = (System.currentTimeMillis() / 1000).toInt(),
             movieId = movieId,
             stars = _stars.value,
             comment = _comment.value.trim(),

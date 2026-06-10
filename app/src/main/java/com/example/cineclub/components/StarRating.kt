@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -38,7 +37,7 @@ fun StarRating(
                     if (interactive) base.clickable { onRatingChange(index) } else base
                 }
             Icon(
-                imageVector = if (active) Icons.Filled.Star else Icons.Outlined.Star,
+                imageVector = Icons.Filled.Star,
                 contentDescription = "Estrella $index de 5",
                 tint = if (active) accent else inactive,
                 modifier = starModifier
