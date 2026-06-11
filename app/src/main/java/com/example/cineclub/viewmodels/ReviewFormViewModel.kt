@@ -6,6 +6,7 @@ import com.example.cineclub.models.Movie
 import com.example.cineclub.models.Review
 import com.example.cineclub.models.ReviewUser
 import com.example.cineclub.repository.MovieRepository
+import com.example.cineclub.session.SessionManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -55,6 +56,13 @@ class ReviewFormViewModel(
             _submitState.value = ReviewSubmitState.Error("Selecciona una calificación")
             return
         }
+
+        val currentUser = SessionManager.currentUser.value
+        if (currentUser == null) {
+            _submitState.value = ReviewSubmitState.Error("Debes iniciar sesión para reseñar")
+            return
+        }
+
         _submitState.value = ReviewSubmitState.Loading
 
         val review = Review(
@@ -63,7 +71,7 @@ class ReviewFormViewModel(
             stars = _stars.value,
             comment = _comment.value.trim(),
             createdAt = LocalDateTime.now().toString(),
-            user = ReviewUser(userId = 1, name = "Derek")
+            user = ReviewUser(userId = currentUser.id, name = currentUser.username)
         )
 
         viewModelScope.launch {

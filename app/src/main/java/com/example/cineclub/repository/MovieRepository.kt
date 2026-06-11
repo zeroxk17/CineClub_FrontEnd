@@ -46,6 +46,38 @@ class MovieRepository {
         }
     }
 
+    suspend fun getReviewsByUser(userId: Int): Result<List<Review>> {
+        return try {
+            Result.success(apiService.getReviewsByUser(userId))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * El backend aún no expone GET /reviews/usuario/{id} en producción (404).
+     * Como alternativa, se obtienen las reseñas de todas las películas y se
+     * filtran en cliente por el id del usuario.
+     */
+    suspend fun getMyReviews(userId: Int): Result<List<Pair<Movie, Review>>> {
+        return try {
+            val movies = apiService.getAll()
+            val result = mutableListOf<Pair<Movie, Review>>()
+            for (movie in movies) {
+                val reviews = try {
+                    apiService.getReviewsByMovie(movie.id)
+                } catch (e: Exception) {
+                    emptyList()
+                }
+                reviews.filter { it.user.userId == userId }
+                    .forEach { result.add(movie to it) }
+            }
+            Result.success(result)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     suspend fun postReview(review: Review): Result<Review> {
         return try {
             Result.success(apiService.postReview(review))

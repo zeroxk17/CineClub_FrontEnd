@@ -47,7 +47,8 @@ private const val ALL_KEY = "Todas"
 @Composable
 fun FilterScreen(
     onGenreSelected: (String) -> Unit,
-    @Suppress("UNUSED_PARAMETER") onMovieSelected: (Int) -> Unit
+    @Suppress("UNUSED_PARAMETER") onMovieSelected: (Int) -> Unit,
+    onMyReviews: () -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -90,6 +91,16 @@ fun FilterScreen(
                 icon = "🎬",
                 accentAlpha = 0.35f,
                 onClick = { onGenreSelected(ALL_KEY) }
+            )
+        }
+
+        item(span = { GridItemSpan(2) }) {
+            FeaturedCard(
+                title = "Mis reseñas",
+                subtitle = "Consulta las reseñas que has escrito",
+                icon = "📝",
+                accentAlpha = 0.45f,
+                onClick = onMyReviews
             )
         }
 

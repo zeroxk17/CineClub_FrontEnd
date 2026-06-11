@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cineclub.models.User
 import com.example.cineclub.repository.UserRepository
+import com.example.cineclub.session.SessionManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -46,6 +47,7 @@ class AuthViewModel(
                         _authState.value = AuthState.Error("Usuario o contraseña incorrectos")
                     } else {
                         _currentUser.value = match
+                        SessionManager.login(match)
                         _authState.value = AuthState.Success(match)
                     }
                 }
@@ -101,6 +103,7 @@ class AuthViewModel(
             repository.createUser(newUser)
                 .onSuccess { saved ->
                     _currentUser.value = saved
+                    SessionManager.login(saved)
                     _authState.value = AuthState.Success(saved)
                 }
                 .onFailure {

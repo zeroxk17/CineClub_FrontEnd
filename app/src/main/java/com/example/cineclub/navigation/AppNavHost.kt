@@ -47,7 +47,14 @@ fun AppNavHost(
                 },
                 onMovieSelected = { movieId ->
                     navController.navigate(Routes.createMovieDetailRoute(movieId))
-                }
+                },
+                onMyReviews = { navController.navigate(Routes.MY_REVIEWS) }
+            )
+        }
+
+        composable(Routes.MY_REVIEWS) {
+            MyReviewsScreen(
+                onBack = { navController.popBackStack() }
             )
         }
 

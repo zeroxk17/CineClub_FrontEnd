@@ -16,6 +16,9 @@ interface MovieApiService {
     @GET("reviews/pelicula/{peliculaId}")
     suspend fun getReviewsByMovie(@Path("peliculaId") movieId: Int): List<Review>
 
+    @GET("reviews/usuario/{usuarioId}")
+    suspend fun getReviewsByUser(@Path("usuarioId") userId: Int): List<Review>
+
     @POST("reviews")
     suspend fun postReview(@Body review: Review): Review
 }
